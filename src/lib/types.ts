@@ -5,4 +5,11 @@ type ExtendedFile = {
   uploadStatus: "idle" | "pending" | "error";
 };
 
-export { type ExtendedFile };
+type FileRow = {
+  id: string;
+  filename: string;
+  size: number;
+  dateUploaded: string;
+};
+
+export { type ExtendedFile, type FileRow };

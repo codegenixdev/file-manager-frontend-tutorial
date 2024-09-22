@@ -18,11 +18,8 @@ function useUploadFiles() {
           updateUploadStatus(file.id, "pending");
           const xhr = new XMLHttpRequest();
           const formData = new FormData();
-
           formData.append("file", file.file);
-
           xhr.open("POST", "http://localhost:3000/upload");
-
           xhr.upload.onprogress = (event) => {
             if (event.lengthComputable) {
               const percentComplete = Math.round(
@@ -31,7 +28,6 @@ function useUploadFiles() {
               updateUploadProgress(file.id, percentComplete);
             }
           };
-
           xhr.onload = () => {
             if (xhr.status === 200) {
               removeFile(file.id);
@@ -39,11 +35,9 @@ function useUploadFiles() {
               updateUploadStatus(file.id, "error");
             }
           };
-
           xhr.onerror = () => {
             updateUploadStatus(file.id, "error");
           };
-
           xhr.send(formData);
         }
       });

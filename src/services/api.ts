@@ -1,12 +1,11 @@
 import { httpClient } from "../lib/httpClient";
+import { FileRow } from "../lib/types";
 
 async function getFiles() {
   type Response = {
-    id: string;
-    filename: string;
-    size: number;
-    dateUploaded: string;
-  }[];
+    totalFiles: number;
+    files: FileRow[];
+  };
 
   const { data } = await httpClient.get<Response>("/files");
   return data;

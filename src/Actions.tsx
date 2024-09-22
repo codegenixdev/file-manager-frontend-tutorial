@@ -1,4 +1,5 @@
-import { LoadingButton } from "@mui/lab";
+import { DeleteTwoTone } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
 import { useDeleteFile } from "./services/mutations";
 
 type Props = { id: string };
@@ -10,14 +11,14 @@ function QuickActions({ id }: Props) {
   }
 
   return (
-    <LoadingButton
+    <IconButton
+      sx={{ textTransform: "none" }}
+      size="small"
       onClick={handleRemoveFile}
       color="error"
-      variant="outlined"
-      loading={deleteFileMutation.isPending}
     >
-      Delete
-    </LoadingButton>
+      <DeleteTwoTone />
+    </IconButton>
   );
 }
 
