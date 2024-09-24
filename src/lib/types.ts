@@ -2,7 +2,7 @@ type ExtendedFile = {
   file: File;
   id: string;
   uploadProgress: number;
-  uploadStatus: "idle" | "pending" | "error";
+  uploadStatus: "idle" | "pending" | "error" | "success";
 };
 
 type FileRow = {

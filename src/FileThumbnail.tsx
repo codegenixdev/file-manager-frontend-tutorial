@@ -1,8 +1,8 @@
-import AudioIcon from "@mui/icons-material/Audiotrack";
-import DescriptionIcon from "@mui/icons-material/Description";
-import ImageIcon from "@mui/icons-material/Image";
-import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
-import VideoIcon from "@mui/icons-material/VideoLibrary";
+import AudioFileTwoToneIcon from "@mui/icons-material/AudioFileTwoTone";
+import BrokenImageTwoToneIcon from "@mui/icons-material/BrokenImageTwoTone";
+import DescriptionTwoToneIcon from "@mui/icons-material/DescriptionTwoTone";
+import InsertDriveFileTwoToneIcon from "@mui/icons-material/InsertDriveFileTwoTone";
+import SlideshowTwoToneIcon from "@mui/icons-material/SlideshowTwoTone";
 
 function getFileType(extension: string) {
   switch (extension) {
@@ -37,15 +37,15 @@ function FileThumbnail({ name }: FileThumbnailProps) {
 
   switch (fileType) {
     case "image":
-      return <ImageIcon fontSize="large" />;
+      return <BrokenImageTwoToneIcon fontSize="large" />;
     case "video":
-      return <VideoIcon fontSize="large" />;
+      return <SlideshowTwoToneIcon fontSize="large" />;
     case "audio":
-      return <AudioIcon fontSize="large" />;
+      return <AudioFileTwoToneIcon fontSize="large" />;
     case "document":
-      return <DescriptionIcon fontSize="large" />;
+      return <DescriptionTwoToneIcon fontSize="large" />;
     default:
-      return <InsertDriveFileIcon fontSize="large" />;
+      return <InsertDriveFileTwoToneIcon fontSize="large" />;
   }
 }
 

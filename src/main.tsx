@@ -9,13 +9,7 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider
-        theme={createTheme({
-          palette: {
-            mode: "dark",
-          },
-        })}
-      >
+      <ThemeProvider theme={createTheme()}>
         <CssBaseline />
         <App />
       </ThemeProvider>

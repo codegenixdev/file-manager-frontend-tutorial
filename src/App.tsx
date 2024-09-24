@@ -2,76 +2,23 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 import CloudUploadTwoToneIcon from "@mui/icons-material/CloudUploadTwoTone";
 import { Box, ButtonBase, Container, Stack, Typography } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useCallback } from "react";
 import {
   DropzoneInputProps,
   DropzoneRootProps,
   useDropzone,
 } from "react-dropzone";
-import { QuickActions } from "./Actions";
-import { FileThumbnail } from "./FileThumbnail";
-import { convertByteToMegabyte } from "./lib/utils";
+import { FilesDataGrid } from "./FilesDataGrid";
 import { PreviewCard } from "./PreviewCard";
-import { getFiles } from "./services/api";
 import { useUploadFiles } from "./services/mutations";
-import { useFiles } from "./services/queries";
-import { useFileStore } from "./store/file-slice";
-
-const dropZoneAccept = {
-  "image/*": [],
-  "video/*": [],
-};
+import { useFileStore } from "./store/useFileStore";
 
 function App() {
   const files = useFileStore((state) => state.files);
 
-  const filesQuery = useFiles();
   const uploadFilesMutation = useUploadFiles();
 
   const [autoAnimateRef] = useAutoAnimate();
-
-  const columns: GridColDef<
-    Awaited<ReturnType<typeof getFiles>>["files"][number]
-  >[] = [
-    {
-      field: "filename",
-      headerName: "File Name",
-      flex: 1,
-      renderCell: ({ row }) => (
-        <Stack
-          sx={{
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 1,
-            height: 1,
-          }}
-        >
-          <FileThumbnail name={row.filename} />
-          <Stack>
-            <Typography variant="body2">{row.filename}</Typography>
-
-            <Typography variant="caption">
-              {convertByteToMegabyte(row.size)}
-            </Typography>
-          </Stack>
-        </Stack>
-      ),
-    },
-    {
-      field: "dateUploaded",
-      headerName: "Date Uploaded",
-      flex: 1,
-      valueFormatter: (value) => new Date(value).toDateString(),
-    },
-    {
-      field: "action",
-      sortable: false,
-      pinnable: false,
-      type: "actions",
-      renderCell: ({ row }) => <QuickActions id={row.id} />,
-    },
-  ];
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -94,9 +41,13 @@ function App() {
     getRootProps: (props?: DropzoneRootProps) => DropzoneRootProps;
     getInputProps: (props?: DropzoneInputProps) => DropzoneInputProps;
   } = useDropzone({
-    accept: dropZoneAccept,
+    // accept: {
+    //   "image/*": [],
+    //   "video/*": [],
+    // },
     onDrop,
-    maxFiles: 10,
+    maxFiles: 15,
+    maxSize: 10_000_000_000,
   });
 
   return (
@@ -108,17 +59,12 @@ function App() {
       </Typography>
       <ButtonBase
         sx={{
-          backgroundColor: "background.default",
-          borderRadius: 3,
-          borderWidth: 2,
-          borderStyle: "dashed",
-          borderColor: "grey.100",
-          padding: 2,
+          backgroundColor: "grey.100",
+          paddingY: 5,
           width: 1,
           display: "flex",
           flexDirection: "column",
           gap: 2,
-          marginBottom: 3,
         }}
         {...getRootProps({ className: "dropzone" })}
       >
@@ -131,7 +77,7 @@ function App() {
           <Typography sx={{ color: "grey.700" }}>
             Click to upload or drag and drop
           </Typography>
-          <Typography variant="caption">Maximum file size 50MB.</Typography>
+          <Typography variant="caption">Maximum file size 2GB.</Typography>
         </Stack>
       </ButtonBase>
       <Stack sx={{ gap: 2, marginBottom: 6 }} ref={autoAnimateRef}>
@@ -141,14 +87,11 @@ function App() {
           </Stack>
         ))}
       </Stack>
-      add server side pagination to datagriddddd
       <Typography variant="h5">Attached files</Typography>
       <Typography sx={{ marginBottom: 2 }} variant="body2">
         Files and assets that have been attached to this project
       </Typography>
-      <Stack>
-        <DataGrid rows={filesQuery.data?.files} columns={columns} />
-      </Stack>
+      <FilesDataGrid />
     </Container>
   );
 }

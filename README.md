@@ -1,3 +1,8 @@
+now make design like this:
+like icons color or better
+https://dribbble.com/shots/20687618-Space-Box-File-Manager
+env
+a11y
 Mention "with upload progress..." in title
 in the first comment mention that if you want to implement it in nextjs or other components ui libraries, tell me
 

@@ -11,7 +11,7 @@ type FileActions = {
   updateUploadProgress: (id: string, uploadProgress: number) => void;
   updateUploadStatus: (
     id: string,
-    status: ExtendedFile["uploadStatus"]
+    uploadStatus: ExtendedFile["uploadStatus"]
   ) => void;
 };
 
@@ -52,10 +52,10 @@ const useFileStore = create<FileSlice>()((set) => ({
       ),
     })),
 
-  updateUploadStatus: (id, status) =>
+  updateUploadStatus: (id, uploadStatus) =>
     set((state) => ({
       files: state.files.map((file) =>
-        file.id === id ? { ...file, status } : file
+        file.id === id ? { ...file, uploadStatus } : file
       ),
     })),
 }));
