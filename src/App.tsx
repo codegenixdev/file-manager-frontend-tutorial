@@ -60,7 +60,8 @@ function App() {
           confirm({ handleClose: () => {}, handleConfirm: () => {} })
         }
       >
-        copy and paste use confirm from niku app asjdiasjdij
+        copy and paste use confirm from niku app asjdiasjdij or you can do it
+        with zustand somehow
       </button>
 
       <Typography variant="h4">Files and assets</Typography>
