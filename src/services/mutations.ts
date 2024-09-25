@@ -22,7 +22,7 @@ function useUploadFiles() {
           formData.append("file", file.file);
 
           return httpClient
-            .post("http://localhost:3000/upload", formData, {
+            .post(`${import.meta.env.VITE_API_URL}/upload`, formData, {
               headers: {
                 "Content-Type": "multipart/form-data",
               },
@@ -36,39 +36,41 @@ function useUploadFiles() {
               },
             })
             .then(() => {
-              updateUploadStatus(file.id, "success");
+              // updateUploadStatus(file.id, "success");
             })
             .catch(() => {
               updateUploadStatus(file.id, "error");
             });
         }
-        return Promise.resolve(); // For files that are not idle, return a resolved promise
+        return Promise.resolve();
       });
 
-      // Wait for all uploads to complete
       await Promise.all(uploadPromises);
     },
     onMutate: (variables) => {
       appendFiles(variables.map((item) => item.file));
     },
     onSuccess: async () => {
-      console.log("dsjfisjfdisjif");
       await queryClient.invalidateQueries({ queryKey: ["files"] });
     },
   });
 }
 
-function useDeleteFile() {
+function useDeleteFiles() {
   const queryClient = useQueryClient();
+  const updateSelectedFileIds = useFileStore(
+    (state) => state.updateSelectedFileIds
+  );
 
   return useMutation({
-    mutationFn: async (fileId: string) => {
-      await httpClient.delete(`files/${fileId}`);
+    mutationFn: async (fileIds: string[]) => {
+      await httpClient.delete(`files`, { data: { fileIds } });
     },
     onSuccess: async () => {
+      updateSelectedFileIds([]);
       await queryClient.invalidateQueries({ queryKey: ["files"] });
     },
   });
 }
 
-export { useDeleteFile, useUploadFiles };
+export { useDeleteFiles, useUploadFiles };

@@ -3,6 +3,7 @@ import { ExtendedFile } from "../lib/types";
 
 type FileState = {
   files: ExtendedFile[];
+  selectedFileIds: string[];
 };
 
 type FileActions = {
@@ -13,12 +14,14 @@ type FileActions = {
     id: string,
     uploadStatus: ExtendedFile["uploadStatus"]
   ) => void;
+  updateSelectedFileIds: (ids: string[]) => void;
 };
 
 type FileSlice = FileState & FileActions;
 
 const useFileStore = create<FileSlice>()((set) => ({
   files: [],
+  selectedFileIds: [],
   removeFile: (id) =>
     set((state) => ({
       files: state.files.filter((file) => file.id !== id),
@@ -57,6 +60,10 @@ const useFileStore = create<FileSlice>()((set) => ({
       files: state.files.map((file) =>
         file.id === id ? { ...file, uploadStatus } : file
       ),
+    })),
+  updateSelectedFileIds: (ids) =>
+    set(() => ({
+      selectedFileIds: ids,
     })),
 }));
 

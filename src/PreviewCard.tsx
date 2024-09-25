@@ -56,7 +56,11 @@ function PreviewCard(props: Props) {
   }
 
   return (
-    <Card>
+    <Card
+      sx={{ textAlign: "left" }}
+      component="div"
+      onClick={(e) => e.stopPropagation()}
+    >
       <CardHeader
         action={
           <Box position="relative" display="inline-flex">
@@ -84,8 +88,11 @@ function PreviewCard(props: Props) {
         avatar={<FileThumbnail name={props.file.name} />}
         title={props.file.name}
         subheader={
-          <>
-            <Typography sx={{ marginBottom: 1 }} variant="body2">
+          <Box>
+            <Typography
+              sx={{ marginBottom: 1, color: "grey.700" }}
+              variant="caption"
+            >
               {convertByteToMegabyte(props.file.size)}
             </Typography>
 
@@ -109,7 +116,7 @@ function PreviewCard(props: Props) {
                 file?.uploadProgress ?? 0
               )}%`}</Typography>
             </Box>
-          </>
+          </Box>
         }
         disableTypography
       />

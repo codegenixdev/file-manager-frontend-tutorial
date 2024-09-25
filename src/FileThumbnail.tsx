@@ -1,8 +1,9 @@
-import AudioFileTwoToneIcon from "@mui/icons-material/AudioFileTwoTone";
-import BrokenImageTwoToneIcon from "@mui/icons-material/BrokenImageTwoTone";
-import DescriptionTwoToneIcon from "@mui/icons-material/DescriptionTwoTone";
-import InsertDriveFileTwoToneIcon from "@mui/icons-material/InsertDriveFileTwoTone";
-import SlideshowTwoToneIcon from "@mui/icons-material/SlideshowTwoTone";
+import AudioFileRoundedIcon from "@mui/icons-material/AudioFileRounded";
+import DescriptionRoundedIcon from "@mui/icons-material/DescriptionRounded";
+import InsertDriveFileRoundedIcon from "@mui/icons-material/InsertDriveFileRounded";
+
+import InsertPhotoRoundedIcon from "@mui/icons-material/InsertPhotoRounded";
+import SmartDisplayRoundedIcon from "@mui/icons-material/SmartDisplayRounded";
 
 function getFileType(extension: string) {
   switch (extension) {
@@ -37,15 +38,15 @@ function FileThumbnail({ name }: FileThumbnailProps) {
 
   switch (fileType) {
     case "image":
-      return <BrokenImageTwoToneIcon fontSize="large" />;
+      return <InsertPhotoRoundedIcon fontSize="large" color="primary" />;
     case "video":
-      return <SlideshowTwoToneIcon fontSize="large" />;
+      return <SmartDisplayRoundedIcon fontSize="large" color="primary" />;
     case "audio":
-      return <AudioFileTwoToneIcon fontSize="large" />;
+      return <AudioFileRoundedIcon fontSize="large" color="primary" />;
     case "document":
-      return <DescriptionTwoToneIcon fontSize="large" />;
+      return <DescriptionRoundedIcon fontSize="large" color="primary" />;
     default:
-      return <InsertDriveFileTwoToneIcon fontSize="large" />;
+      return <InsertDriveFileRoundedIcon fontSize="large" color="primary" />;
   }
 }
 

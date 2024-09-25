@@ -1,11 +1,21 @@
-import { Link, Stack, Typography } from "@mui/material";
-import { DataGrid, GridColDef, GridSortModel } from "@mui/x-data-grid";
+import { Stack, Typography } from "@mui/material";
+
+import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
+import {
+  DataGrid,
+  GridColDef,
+  GridRowSelectionModel,
+  GridSortModel,
+} from "@mui/x-data-grid";
 import { useMemo, useRef, useState } from "react";
-import { QuickActions } from "./Actions";
+import { QuickActions } from "./QuickActions";
+import { BulkActions } from "./BulkActions";
 import { FileThumbnail } from "./FileThumbnail";
+import { FileRow } from "./lib/types";
 import { convertByteToMegabyte } from "./lib/utils";
 import { useFiles } from "./services/queries";
-import { FileRow } from "./lib/types";
+import { useFileStore } from "./store/useFileStore";
+import { useDeleteFiles } from "./services/mutations";
 
 const columns: GridColDef<FileRow>[] = [
   {
@@ -22,19 +32,15 @@ const columns: GridColDef<FileRow>[] = [
         }}
       >
         <FileThumbnail name={row.filename} />
-        <Link
-          href={`http://localhost:3000/files/${row.id}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Typography variant="body2">{row.filename}</Typography>
-        </Link>
+        <Typography sx={{ fontWeight: 500 }} variant="body2">
+          {row.filename}
+        </Typography>
       </Stack>
     ),
   },
   {
     field: "size",
-    headerName: "size",
+    headerName: "Size",
     flex: 1,
     valueFormatter: (value) => convertByteToMegabyte(value),
   },
@@ -49,7 +55,7 @@ const columns: GridColDef<FileRow>[] = [
     sortable: false,
     pinnable: false,
     type: "actions",
-    renderCell: ({ row }) => <QuickActions id={row.id} />,
+    renderCell: ({ row }) => <QuickActions {...row} />,
   },
 ];
 
@@ -58,9 +64,16 @@ function FilesDataGrid() {
     { field: "dateUploaded", sort: "desc" },
   ]);
 
+  const deleteFilesMutation = useDeleteFiles();
+
+  const selectedFileIds = useFileStore((state) => state.selectedFileIds);
+  const updateSelectedFileIds = useFileStore(
+    (state) => state.updateSelectedFileIds
+  );
+
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
-    pageSize: 5,
+    pageSize: 10,
   });
 
   const filesQuery = useFiles({ paginationModel, sortModel });
@@ -73,19 +86,43 @@ function FilesDataGrid() {
     return rowCountRef.current;
   }, [filesQuery.data?.totalFilesCount]);
 
+  function handleRemoveFiles() {
+    deleteFilesMutation.mutate(selectedFileIds);
+  }
+
+  function handleRowSelectionModelChange(ids: GridRowSelectionModel) {
+    updateSelectedFileIds(ids.map((id) => id.toString()));
+  }
+
   return (
-    <DataGrid
-      sx={{ height: 500 }}
-      rows={filesQuery.data?.files}
-      columns={columns}
-      rowCount={rowCount}
-      loading={filesQuery.isLoading}
-      pageSizeOptions={[5, 10, 25]}
-      paginationModel={paginationModel}
-      paginationMode="server"
-      onPaginationModelChange={setPaginationModel}
-      onSortModelChange={(newSortModel) => setSortModel(newSortModel)}
-    />
+    <>
+      <DataGrid
+        sx={(theme) => ({ height: `calc(100dvh - ${theme.spacing(43)})` })}
+        checkboxSelection
+        onRowSelectionModelChange={handleRowSelectionModelChange}
+        rowSelectionModel={selectedFileIds}
+        rows={filesQuery.data?.files}
+        columns={columns}
+        rowCount={rowCount}
+        loading={filesQuery.isLoading}
+        pageSizeOptions={[10, 25, 50, 100]}
+        density="comfortable"
+        paginationModel={paginationModel}
+        paginationMode="server"
+        onPaginationModelChange={setPaginationModel}
+        onSortModelChange={(newSortModel) => setSortModel(newSortModel)}
+      />
+      <BulkActions
+        actions={[
+          {
+            icon: <DeleteForeverRoundedIcon />,
+            actionFn: handleRemoveFiles,
+            label: "Delete files",
+          },
+        ]}
+        ids={selectedFileIds}
+      />
+    </>
   );
 }
 

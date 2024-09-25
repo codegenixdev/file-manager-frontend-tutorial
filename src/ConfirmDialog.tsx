@@ -1,16 +1,16 @@
 import {
   Button,
+  ButtonProps,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  IconButton,
 } from "@mui/material";
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 
 type Props = {
   onConfirm: () => void;
-  icon: ReactNode;
+  buttonProps: Omit<ButtonProps, "onClick">;
 };
 function ConfirmDialog(props: Props) {
   const [open, setOpen] = useState(false);
@@ -35,7 +35,7 @@ function ConfirmDialog(props: Props) {
           <Button onClick={props.onConfirm}>Confirm</Button>
         </DialogActions>
       </Dialog>
-      <IconButton onClick={handleOpen}>{props.icon}</IconButton>
+      <Button onClick={handleOpen} {...props.buttonProps} />
     </>
   );
 }
