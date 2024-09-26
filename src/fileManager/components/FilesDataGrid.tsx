@@ -8,16 +8,17 @@ import {
   GridSortModel,
 } from "@mui/x-data-grid";
 import { useMemo, useRef, useState } from "react";
-import { QuickActions } from "./QuickActions";
-import { BulkActions } from "./BulkActions";
-import { FileThumbnail } from "./FileThumbnail";
-import { FileRow } from "./lib/types";
-import { convertByteToMegabyte } from "./lib/utils";
-import { useFiles } from "./services/queries";
-import { useFileStore } from "./store/useFileStore";
-import { useDeleteFiles } from "./services/mutations";
+import { FileDataGridRow } from "@/fileManager/types/FileDataGridRow";
+import { FileThumbnail } from "@/fileManager/components/FileThumbnail";
+import { convertByteToMegabyte } from "@/lib/utils";
+import { FileQuickActions } from "@/fileManager/components/FileQuickActions";
+import { useConfirm } from "@/confirm/hooks/useConfirm";
+import { useDeleteFilesMutation } from "@/fileManager/hooks/useDeleteFilesMutation";
+import { useFileManagerStore } from "@/fileManager/hooks/useFileManagerStore";
+import { useFilesQuery } from "@/fileManager/hooks/useFilesQuery";
+import { BulkActions } from "@/lib/components/BulkActions";
 
-const columns: GridColDef<FileRow>[] = [
+const columns: GridColDef<FileDataGridRow>[] = [
   {
     field: "filename",
     headerName: "File Name",
@@ -55,19 +56,20 @@ const columns: GridColDef<FileRow>[] = [
     sortable: false,
     pinnable: false,
     type: "actions",
-    renderCell: ({ row }) => <QuickActions {...row} />,
+    renderCell: ({ row }) => <FileQuickActions {...row} />,
   },
 ];
 
-function FilesDataGrid() {
+export function FilesDataGrid() {
   const [sortModel, setSortModel] = useState<GridSortModel>([
     { field: "dateUploaded", sort: "desc" },
   ]);
+  const confirm = useConfirm();
 
-  const deleteFilesMutation = useDeleteFiles();
+  const deleteFilesMutation = useDeleteFilesMutation();
 
-  const selectedFileIds = useFileStore((state) => state.selectedFileIds);
-  const updateSelectedFileIds = useFileStore(
+  const selectedFileIds = useFileManagerStore((state) => state.selectedFileIds);
+  const updateSelectedFileIds = useFileManagerStore(
     (state) => state.updateSelectedFileIds
   );
 
@@ -76,7 +78,7 @@ function FilesDataGrid() {
     pageSize: 10,
   });
 
-  const filesQuery = useFiles({ paginationModel, sortModel });
+  const filesQuery = useFilesQuery({ paginationModel, sortModel });
   const rowCountRef = useRef(filesQuery.data?.totalFilesCount || 0);
 
   const rowCount = useMemo(() => {
@@ -87,7 +89,11 @@ function FilesDataGrid() {
   }, [filesQuery.data?.totalFilesCount]);
 
   function handleRemoveFiles() {
-    deleteFilesMutation.mutate(selectedFileIds);
+    confirm({
+      handleConfirm: () => {
+        deleteFilesMutation.mutate(selectedFileIds);
+      },
+    });
   }
 
   function handleRowSelectionModelChange(ids: GridRowSelectionModel) {
@@ -125,5 +131,3 @@ function FilesDataGrid() {
     </>
   );
 }
-
-export { FilesDataGrid };

@@ -24,7 +24,7 @@ type Props = {
   ids: string[];
   actions: Action[];
 };
-function BulkActions({ actions, ids }: Props) {
+export function BulkActions({ actions, ids }: Props) {
   const nodeRef = useRef(null);
 
   const duration = 300;
@@ -42,9 +42,10 @@ function BulkActions({ actions, ids }: Props) {
         <Paper
           ref={nodeRef}
           sx={{
-            position: "absolute",
+            position: "fixed",
             left: "50%",
             transform: "translateX(-50%)",
+            bottom: 0,
             padding: 3,
             width: "100vw",
             maxWidth: 400,
@@ -87,5 +88,3 @@ function BulkActions({ actions, ids }: Props) {
     </Transition>
   );
 }
-
-export { BulkActions };

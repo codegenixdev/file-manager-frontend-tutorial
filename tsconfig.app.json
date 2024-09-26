@@ -18,6 +18,9 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"]

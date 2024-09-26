@@ -32,7 +32,7 @@ function getFileType(extension: string) {
 
 type FileThumbnailProps = Pick<File, "name">;
 
-function FileThumbnail({ name }: FileThumbnailProps) {
+export function FileThumbnail({ name }: FileThumbnailProps) {
   const extension = name.split(".").pop()?.toLowerCase();
   const fileType = extension ? getFileType(extension) : "file";
 
@@ -49,5 +49,3 @@ function FileThumbnail({ name }: FileThumbnailProps) {
       return <InsertDriveFileRoundedIcon fontSize="large" color="primary" />;
   }
 }
-
-export { FileThumbnail };

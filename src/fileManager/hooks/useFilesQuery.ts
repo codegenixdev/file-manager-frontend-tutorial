@@ -2,10 +2,10 @@ import { GridPaginationModel } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 
 import { GridSortModel } from "@mui/x-data-grid";
-import { httpClient } from "../lib/httpClient";
-import { FileRow } from "../lib/types";
+import { FileDataGridRow } from "@/fileManager/types/FileDataGridRow";
+import { httpClient } from "@/lib/httpClient";
 
-function useFiles({
+export function useFilesQuery({
   paginationModel,
   sortModel,
 }: {
@@ -21,7 +21,7 @@ function useFiles({
 
       type Response = {
         totalFilesCount: number;
-        files: FileRow[];
+        files: FileDataGridRow[];
       };
 
       const { data } = await httpClient.get<Response>(`/files`, {
@@ -37,5 +37,3 @@ function useFiles({
     },
   });
 }
-
-export { useFiles };

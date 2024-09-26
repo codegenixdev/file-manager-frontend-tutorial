@@ -1,3 +1,7 @@
+import { FileThumbnail } from "@/fileManager/components/FileThumbnail";
+import { useFileManagerStore } from "@/fileManager/hooks/useFileManagerStore";
+import { ExtendedFile } from "@/fileManager/types/ExtendedFile";
+import { convertByteToMegabyte } from "@/lib/utils";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import {
   Card,
@@ -9,16 +13,12 @@ import {
 } from "@mui/material";
 
 import { Box, LinearProgress } from "@mui/material";
-import { FileThumbnail } from "./FileThumbnail";
-import { ExtendedFile } from "./lib/types";
-import { convertByteToMegabyte } from "./lib/utils";
-import { useFileStore } from "./store/useFileStore";
 import { useCallback, useEffect, useState } from "react";
 
 type Props = ExtendedFile;
-function PreviewCard(props: Props) {
-  const removeFile = useFileStore((state) => state.removeFile);
-  const file = useFileStore((state) =>
+export function UploadProgressCard(props: Props) {
+  const removeFile = useFileManagerStore((state) => state.removeFile);
+  const file = useFileManagerStore((state) =>
     state.files.find((file) => file.id === props.id)
   );
 
@@ -123,5 +123,3 @@ function PreviewCard(props: Props) {
     </Card>
   );
 }
-
-export { PreviewCard };

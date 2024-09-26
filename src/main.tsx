@@ -1,9 +1,9 @@
+import { App } from "@/App";
+import { ConfirmProvider } from "@/confirm/components/ConfirmProvider";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { App } from "./App";
-import { ConfirmProvider } from "./confirm/components/Provider";
 
 const queryClient = new QueryClient();
 

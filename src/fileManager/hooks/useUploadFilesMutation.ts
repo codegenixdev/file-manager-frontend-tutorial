@@ -1,14 +1,16 @@
+import { useFileManagerStore } from "@/fileManager/hooks/useFileManagerStore";
+import { ExtendedFile } from "@/fileManager/types/ExtendedFile";
+import { httpClient } from "@/lib/httpClient";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { httpClient } from "../lib/httpClient";
-import { ExtendedFile } from "../lib/types";
-import { useFileStore } from "../store/useFileStore";
 
-function useUploadFiles() {
-  const updateUploadProgress = useFileStore(
+export function useUploadFilesMutation() {
+  const updateUploadProgress = useFileManagerStore(
     (state) => state.updateUploadProgress
   );
-  const updateUploadStatus = useFileStore((state) => state.updateUploadStatus);
-  const appendFiles = useFileStore((state) => state.appendFiles);
+  const updateUploadStatus = useFileManagerStore(
+    (state) => state.updateUploadStatus
+  );
+  const appendFiles = useFileManagerStore((state) => state.appendFiles);
 
   const queryClient = useQueryClient();
 
@@ -36,7 +38,7 @@ function useUploadFiles() {
               },
             })
             .then(() => {
-              // updateUploadStatus(file.id, "success");
+              updateUploadStatus(file.id, "success");
             })
             .catch(() => {
               updateUploadStatus(file.id, "error");
@@ -55,22 +57,3 @@ function useUploadFiles() {
     },
   });
 }
-
-function useDeleteFiles() {
-  const queryClient = useQueryClient();
-  const updateSelectedFileIds = useFileStore(
-    (state) => state.updateSelectedFileIds
-  );
-
-  return useMutation({
-    mutationFn: async (fileIds: string[]) => {
-      await httpClient.delete(`files`, { data: { fileIds } });
-    },
-    onSuccess: async () => {
-      updateSelectedFileIds([]);
-      await queryClient.invalidateQueries({ queryKey: ["files"] });
-    },
-  });
-}
-
-export { useDeleteFiles, useUploadFiles };

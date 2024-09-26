@@ -1,5 +1,5 @@
+import { ExtendedFile } from "@/fileManager/types/ExtendedFile";
 import { create } from "zustand";
-import { ExtendedFile } from "../lib/types";
 
 type FileState = {
   files: ExtendedFile[];
@@ -19,7 +19,7 @@ type FileActions = {
 
 type FileSlice = FileState & FileActions;
 
-const useFileStore = create<FileSlice>()((set) => ({
+export const useFileManagerStore = create<FileSlice>()((set) => ({
   files: [],
   selectedFileIds: [],
   removeFile: (id) =>
@@ -66,5 +66,3 @@ const useFileStore = create<FileSlice>()((set) => ({
       selectedFileIds: ids,
     })),
 }));
-
-export { useFileStore };

@@ -10,15 +10,16 @@ import {
   Typography,
 } from "@mui/material";
 import { MouseEvent, useState } from "react";
-import { ConfirmDialog } from "./ConfirmDialog";
-import { useDeleteFiles } from "./services/mutations";
-import { FileRow } from "./lib/types";
+import { useConfirm } from "@/confirm/hooks/useConfirm";
+import { useDeleteFilesMutation } from "@/fileManager/hooks/useDeleteFilesMutation";
+import { FileDataGridRow } from "@/fileManager/types/FileDataGridRow";
 
-type Props = FileRow;
-function QuickActions({ id, filename }: Props) {
+type Props = FileDataGridRow;
+export function FileQuickActions({ id, filename }: Props) {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const confirm = useConfirm();
 
-  const deleteFilesMutation = useDeleteFiles();
+  const deleteFilesMutation = useDeleteFilesMutation();
 
   function handleClick(event: MouseEvent<HTMLButtonElement>) {
     setAnchorEl(event.currentTarget);
@@ -29,7 +30,11 @@ function QuickActions({ id, filename }: Props) {
   }
 
   function handleRemoveFiles() {
-    deleteFilesMutation.mutate([id]);
+    confirm({
+      handleConfirm: () => {
+        deleteFilesMutation.mutate([id]);
+      },
+    });
   }
 
   return (
@@ -49,18 +54,15 @@ function QuickActions({ id, filename }: Props) {
             </Button>
           </Link>
 
-          <ConfirmDialog
-            onConfirm={handleRemoveFiles}
-            buttonProps={{
-              color: "error",
-              children: "Delete",
-              startIcon: <DeleteForeverRoundedIcon />,
-            }}
-          />
+          <Button
+            startIcon={<DeleteForeverRoundedIcon />}
+            onClick={handleRemoveFiles}
+            color="error"
+          >
+            Delete
+          </Button>
         </Stack>
       </Popover>
     </>
   );
 }
-
-export { QuickActions };
