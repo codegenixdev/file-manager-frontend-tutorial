@@ -1,8 +1,8 @@
 import { useFileManagerStore } from "@/fileManager/hooks/useFileManagerStore";
-import { httpClient } from "@/lib/httpClient";
+import { httpClient } from "@/shared/httpClient";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export function useDeleteFilesMutation() {
+export function useFileDeleteMutation() {
   const queryClient = useQueryClient();
   const updateSelectedFileIds = useFileManagerStore(
     (state) => state.updateSelectedFileIds

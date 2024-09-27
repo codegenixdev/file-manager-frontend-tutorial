@@ -1,9 +1,9 @@
 import { useFileManagerStore } from "@/fileManager/hooks/useFileManagerStore";
 import { ExtendedFile } from "@/fileManager/types/ExtendedFile";
-import { httpClient } from "@/lib/httpClient";
+import { httpClient } from "@/shared/httpClient";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export function useUploadFilesMutation() {
+export function useFileUploadMutation() {
   const updateUploadProgress = useFileManagerStore(
     (state) => state.updateUploadProgress
   );

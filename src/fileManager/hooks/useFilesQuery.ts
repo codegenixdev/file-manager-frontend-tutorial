@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { GridSortModel } from "@mui/x-data-grid";
 import { FileDataGridRow } from "@/fileManager/types/FileDataGridRow";
-import { httpClient } from "@/lib/httpClient";
+import { httpClient } from "@/shared/httpClient";
 
 export function useFilesQuery({
   paginationModel,

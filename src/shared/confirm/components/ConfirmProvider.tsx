@@ -6,7 +6,10 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
 import { Dialog as MuiDialog } from "@mui/material";
-import { ConfirmContext, ConfirmOptions } from "@/confirm/hooks/useConfirm";
+import {
+  ConfirmContext,
+  ConfirmOptions,
+} from "@/shared/confirm/hooks/useConfirm";
 
 type ConfirmProviderProps = {
   children: ReactNode;

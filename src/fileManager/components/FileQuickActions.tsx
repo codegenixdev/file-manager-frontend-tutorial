@@ -10,16 +10,16 @@ import {
   Typography,
 } from "@mui/material";
 import { MouseEvent, useState } from "react";
-import { useConfirm } from "@/confirm/hooks/useConfirm";
-import { useDeleteFilesMutation } from "@/fileManager/hooks/useDeleteFilesMutation";
+import { useFileDeleteMutation } from "@/fileManager/hooks/useFileDeleteMutation";
 import { FileDataGridRow } from "@/fileManager/types/FileDataGridRow";
+import { useConfirm } from "@/shared/confirm/hooks/useConfirm";
 
 type Props = FileDataGridRow;
 export function FileQuickActions({ id, filename }: Props) {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const confirm = useConfirm();
 
-  const deleteFilesMutation = useDeleteFilesMutation();
+  const fileDeleteMutation = useFileDeleteMutation();
 
   function handleClick(event: MouseEvent<HTMLButtonElement>) {
     setAnchorEl(event.currentTarget);
@@ -32,7 +32,7 @@ export function FileQuickActions({ id, filename }: Props) {
   function handleRemoveFiles() {
     confirm({
       handleConfirm: () => {
-        deleteFilesMutation.mutate([id]);
+        fileDeleteMutation.mutate([id]);
       },
     });
   }

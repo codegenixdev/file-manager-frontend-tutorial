@@ -10,13 +10,13 @@ import {
 import { useMemo, useRef, useState } from "react";
 import { FileDataGridRow } from "@/fileManager/types/FileDataGridRow";
 import { FileThumbnail } from "@/fileManager/components/FileThumbnail";
-import { convertByteToMegabyte } from "@/lib/utils";
+import { convertByteToMegabyte } from "@/shared/utils";
 import { FileQuickActions } from "@/fileManager/components/FileQuickActions";
-import { useConfirm } from "@/confirm/hooks/useConfirm";
-import { useDeleteFilesMutation } from "@/fileManager/hooks/useDeleteFilesMutation";
+import { useFileDeleteMutation } from "@/fileManager/hooks/useFileDeleteMutation";
 import { useFileManagerStore } from "@/fileManager/hooks/useFileManagerStore";
 import { useFilesQuery } from "@/fileManager/hooks/useFilesQuery";
-import { BulkActions } from "@/lib/components/BulkActions";
+import { BulkActions } from "@/shared/ui/BulkActions";
+import { useConfirm } from "@/shared/confirm/hooks/useConfirm";
 
 const columns: GridColDef<FileDataGridRow>[] = [
   {
@@ -66,7 +66,7 @@ export function FilesDataGrid() {
   ]);
   const confirm = useConfirm();
 
-  const deleteFilesMutation = useDeleteFilesMutation();
+  const fileDeleteMutation = useFileDeleteMutation();
 
   const selectedFileIds = useFileManagerStore((state) => state.selectedFileIds);
   const updateSelectedFileIds = useFileManagerStore(
@@ -91,7 +91,7 @@ export function FilesDataGrid() {
   function handleRemoveFiles() {
     confirm({
       handleConfirm: () => {
-        deleteFilesMutation.mutate(selectedFileIds);
+        fileDeleteMutation.mutate(selectedFileIds);
       },
     });
   }
@@ -103,7 +103,7 @@ export function FilesDataGrid() {
   return (
     <>
       <DataGrid
-        sx={(theme) => ({ height: `calc(100dvh - ${theme.spacing(43)})` })}
+        sx={(theme) => ({ height: `calc(100dvh - ${theme.spacing(52)})` })}
         checkboxSelection
         onRowSelectionModelChange={handleRowSelectionModelChange}
         rowSelectionModel={selectedFileIds}

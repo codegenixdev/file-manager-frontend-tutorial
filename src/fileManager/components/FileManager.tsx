@@ -1,10 +1,17 @@
 import { FilesDataGrid } from "@/fileManager/components/FilesDataGrid";
 import { UploadProgressCard } from "@/fileManager/components/UploadProgressCard";
 import { useFileManagerStore } from "@/fileManager/hooks/useFileManagerStore";
-import { useUploadFilesMutation } from "@/fileManager/hooks/useUploadFilesMutation";
+import { useFileUploadMutation } from "@/fileManager/hooks/useFileUploadMutation";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import FileUploadRoundedIcon from "@mui/icons-material/FileUploadRounded";
-import { Box, ButtonBase, Stack, Typography } from "@mui/material";
+import {
+  alpha,
+  Box,
+  ButtonBase,
+  colors,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useCallback } from "react";
 import {
   DropzoneInputProps,
@@ -12,16 +19,16 @@ import {
   useDropzone,
 } from "react-dropzone";
 
-export function FileManagerPage() {
+export function FileManager() {
   const files = useFileManagerStore((state) => state.files);
 
-  const uploadFilesMutation = useUploadFilesMutation();
+  const fileUploadMutation = useFileUploadMutation();
 
   const [autoAnimateRef] = useAutoAnimate();
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
-      uploadFilesMutation.mutate(
+      fileUploadMutation.mutate(
         acceptedFiles.map((item) => ({
           file: item,
           id: `${item.name}${item.size}`,
@@ -30,7 +37,7 @@ export function FileManagerPage() {
         }))
       );
     },
-    [uploadFilesMutation]
+    [fileUploadMutation]
   );
 
   const {
@@ -51,14 +58,13 @@ export function FileManagerPage() {
 
   return (
     <>
-      <Typography variant="h4">Files and assets</Typography>
-      <Typography sx={{ marginBottom: 3, color: "grey.700" }}>
-        Documents and attachments that have been uploaded as part of this
-        project.
+      <Typography variant="h4">Files</Typography>
+      <Typography sx={{ marginBottom: 3 }}>
+        Files and assets that have been uploaded as part of this project.
       </Typography>
       <ButtonBase
         sx={(theme) => ({
-          backgroundColor: "grey.100",
+          backgroundColor: alpha(colors.grey[500], 0.1),
           padding: 2,
           width: 1,
           borderRadius: `${theme.shape.borderRadius}px`,
@@ -72,9 +78,9 @@ export function FileManagerPage() {
       >
         <Box component="input" {...getInputProps()} />
 
-        <FileUploadRoundedIcon sx={{ color: "grey.700" }} fontSize="large" />
+        <FileUploadRoundedIcon fontSize="large" />
 
-        <Stack sx={{ alignItems: "center", gap: 1, color: "grey.700" }}>
+        <Stack sx={{ alignItems: "center", gap: 1 }}>
           <Typography>Click to upload or drag and drop</Typography>
           <Typography>Max 10GB.</Typography>
         </Stack>

@@ -1,7 +1,7 @@
 import { FileThumbnail } from "@/fileManager/components/FileThumbnail";
 import { useFileManagerStore } from "@/fileManager/hooks/useFileManagerStore";
 import { ExtendedFile } from "@/fileManager/types/ExtendedFile";
-import { convertByteToMegabyte } from "@/lib/utils";
+import { convertByteToMegabyte } from "@/shared/utils";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import {
   Card,
@@ -89,10 +89,7 @@ export function UploadProgressCard(props: Props) {
         title={props.file.name}
         subheader={
           <Box>
-            <Typography
-              sx={{ marginBottom: 1, color: "grey.700" }}
-              variant="caption"
-            >
+            <Typography sx={{ marginBottom: 1 }} variant="caption">
               {convertByteToMegabyte(props.file.size)}
             </Typography>
 
