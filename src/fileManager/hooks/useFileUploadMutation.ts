@@ -16,7 +16,7 @@ export function useFileUploadMutation() {
 
   return useMutation({
     mutationFn: async (files: ExtendedFile[]) => {
-      const uploadPromises = files.map((file) => {
+      const uploadPromises = files.map(async (file) => {
         if (file.uploadStatus === "idle") {
           updateUploadStatus(file.id, "pending");
 

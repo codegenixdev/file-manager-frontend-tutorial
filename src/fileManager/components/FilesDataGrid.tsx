@@ -91,7 +91,11 @@ export function FilesDataGrid() {
   function handleRemoveFiles() {
     confirm({
       handleConfirm: () => {
-        fileDeleteMutation.mutate(selectedFileIds);
+        fileDeleteMutation.mutate(selectedFileIds, {
+          onSuccess: () => {
+            updateSelectedFileIds([]);
+          },
+        });
       },
     });
   }

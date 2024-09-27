@@ -17,9 +17,9 @@ import { useDropzone } from "react-dropzone";
 export function FileManager() {
   const files = useFileManagerStore((state) => state.files);
 
-  const fileUploadMutation = useFileUploadMutation();
-
   const [autoAnimateRef] = useAutoAnimate();
+
+  const fileUploadMutation = useFileUploadMutation();
 
   function onDrop(acceptedFiles: File[]) {
     fileUploadMutation.mutate(

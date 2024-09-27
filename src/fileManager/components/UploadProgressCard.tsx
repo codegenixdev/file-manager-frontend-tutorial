@@ -16,32 +16,34 @@ import { Box, LinearProgress } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 
 type Props = ExtendedFile;
-export function UploadProgressCard(props: Props) {
+export function UploadProgressCard({
+  file,
+  id,
+  uploadStatus,
+  uploadProgress,
+}: Props) {
   const removeFile = useFileManagerStore((state) => state.removeFile);
-  const file = useFileManagerStore((state) =>
-    state.files.find((file) => file.id === props.id)
-  );
 
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    if (file?.uploadStatus === "success") {
+    if (uploadStatus === "success") {
       let progressValue = 0;
 
       const interval = setInterval(() => {
         progressValue += 3;
         setProgress((prev) => prev + 3);
         if (progressValue >= 100) {
-          removeFile(file.id);
+          removeFile(id);
           clearInterval(interval);
         }
       }, 50);
       return () => clearInterval(interval);
     }
-  }, [file?.id, file?.uploadStatus, removeFile]);
+  }, [id, removeFile, uploadStatus]);
 
   const getStatusColor = useCallback(() => {
-    switch (file?.uploadStatus) {
+    switch (uploadStatus) {
       case "success":
         return "success";
       case "error":
@@ -49,10 +51,10 @@ export function UploadProgressCard(props: Props) {
       default:
         return "info";
     }
-  }, [file?.uploadStatus]);
+  }, [uploadStatus]);
 
   function handleRemove() {
-    removeFile(props.id);
+    removeFile(id);
   }
 
   return (
@@ -85,12 +87,12 @@ export function UploadProgressCard(props: Props) {
             </Stack>
           </Box>
         }
-        avatar={<FileThumbnail name={props.file.name} />}
-        title={props.file.name}
+        avatar={<FileThumbnail name={file.name} />}
+        title={file.name}
         subheader={
           <Box>
             <Typography sx={{ marginBottom: 1 }} variant="caption">
-              {convertByteToMegabyte(props.file.size)}
+              {convertByteToMegabyte(file.size)}
             </Typography>
 
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -105,12 +107,12 @@ export function UploadProgressCard(props: Props) {
                   })}
                   variant="determinate"
                   color={getStatusColor()}
-                  value={file?.uploadProgress}
-                  aria-label={`Progress: ${file?.uploadProgress ?? 0}%`}
+                  value={uploadProgress}
+                  aria-label={`Progress: ${uploadProgress ?? 0}%`}
                 />
               </Box>
               <Typography variant="body2" color="text.secondary">{`${Math.round(
-                file?.uploadProgress ?? 0
+                uploadProgress ?? 0
               )}%`}</Typography>
             </Box>
           </Box>
