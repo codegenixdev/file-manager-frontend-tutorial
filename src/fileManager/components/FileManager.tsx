@@ -13,11 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useCallback } from "react";
-import {
-  DropzoneInputProps,
-  DropzoneRootProps,
-  useDropzone,
-} from "react-dropzone";
+import { useDropzone } from "react-dropzone";
 
 export function FileManager() {
   const files = useFileManagerStore((state) => state.files);
@@ -40,13 +36,7 @@ export function FileManager() {
     [fileUploadMutation]
   );
 
-  const {
-    getRootProps,
-    getInputProps,
-  }: {
-    getRootProps: (props?: DropzoneRootProps) => DropzoneRootProps;
-    getInputProps: (props?: DropzoneInputProps) => DropzoneInputProps;
-  } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     // accept: {
     //   "image/*": [],
     //   "video/*": [],
