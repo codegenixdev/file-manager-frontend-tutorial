@@ -2,7 +2,7 @@ import { GridPaginationModel } from "@mui/x-data-grid";
 import { useQuery } from "@tanstack/react-query";
 
 import { GridSortModel } from "@mui/x-data-grid";
-import { FileDataGridRow } from "@/fileManager/types/FileDataGridRow";
+import { FileDataGridRow } from "@/fileManager/types/fileDataGridRow";
 import { httpClient } from "@/shared/httpClient";
 
 export function useFilesQuery({

@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { MouseEvent, useState } from "react";
 import { useFileDeleteMutation } from "@/fileManager/hooks/useFileDeleteMutation";
-import { FileDataGridRow } from "@/fileManager/types/FileDataGridRow";
+import { FileDataGridRow } from "@/fileManager/types/fileDataGridRow";
 import { useConfirm } from "@/shared/confirm/hooks/useConfirm";
 
 type Props = FileDataGridRow;

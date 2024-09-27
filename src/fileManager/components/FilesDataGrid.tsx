@@ -8,7 +8,7 @@ import {
   GridSortModel,
 } from "@mui/x-data-grid";
 import { useMemo, useRef, useState } from "react";
-import { FileDataGridRow } from "@/fileManager/types/FileDataGridRow";
+import { FileDataGridRow } from "@/fileManager/types/fileDataGridRow";
 import { FileThumbnail } from "@/fileManager/components/FileThumbnail";
 import { convertByteToMegabyte } from "@/shared/utils";
 import { FileQuickActions } from "@/fileManager/components/FileQuickActions";

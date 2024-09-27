@@ -1,6 +1,6 @@
 import { FileThumbnail } from "@/fileManager/components/FileThumbnail";
 import { useFileManagerStore } from "@/fileManager/hooks/useFileManagerStore";
-import { ExtendedFile } from "@/fileManager/types/ExtendedFile";
+import { ExtendedFile } from "@/fileManager/types/extendedFile";
 import { convertByteToMegabyte } from "@/shared/utils";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import {

@@ -1,3 +1,11 @@
+desc:
+zustand video
+react query video
+
+first comment on video that do you want to implemnt using nextjs or??
+
+---
+
 if you want to follow along and to save your time, i decided to create a starting template project where i have setup a simple react vite project with material ui and a few other libraries to help us get started with the project
 
 ```bash
@@ -71,4 +79,64 @@ export function FileManager() {
 }
 ```
 
-show it
+show
+
+```tsx filemanager.tsx
+const { getRootProps, getInputProps } = useDropzone();
+```
+
+on button base
+
+```tsx filemanager.tsx
+{...getRootProps()}
+```
+
+below it
+
+```tsx
+<Box component="input" {...getInputProps()} />
+```
+
+show
+thats perfect but how to keep track of what files user has dropped in the upload box or has selected and what to do with them
+
+```tsx
+function onDrop(acceptedFiles: File[]) {
+  console.log(acceptedFiles);
+}
+
+const { getRootProps, getInputProps } = useDropzone({
+  onDrop,
+});
+```
+
+show that is logs
+
+```tsx
+const { getRootProps, getInputProps } = useDropzone({
+  onDrop,
+  // accept: {
+  //   "image/*": [],
+  //   "video/*": [],
+  // },
+  maxFiles: 15,
+  maxSize: 10_000_000_000,
+});
+```
+
+also there are so many other properties you can read the docs
+
+now lets continue how to handle and what to do with selected files.
+because we want to have access to selected files in many different components and do some operations on them, instead of creating a state here that keeps track of selected files, i prefer to use some state management solutions like react context or zustand. but for simplicity and because zustand is very simple and unopninated, i prefer it here. also i have a full course on it so you can check it out
+
+```ts hooks/useFileManagerStore.ts
+import { create } from "zustand";
+
+type FileState = {
+  files: ExtendedFile[];
+};
+```
+
+```ts types/extendedFile
+
+```

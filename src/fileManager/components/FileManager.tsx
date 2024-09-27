@@ -12,7 +12,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
 export function FileManager() {
@@ -22,19 +21,16 @@ export function FileManager() {
 
   const [autoAnimateRef] = useAutoAnimate();
 
-  const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      fileUploadMutation.mutate(
-        acceptedFiles.map((item) => ({
-          file: item,
-          id: `${item.name}${item.size}`,
-          uploadProgress: 0,
-          uploadStatus: "idle",
-        }))
-      );
-    },
-    [fileUploadMutation]
-  );
+  function onDrop(acceptedFiles: File[]) {
+    fileUploadMutation.mutate(
+      acceptedFiles.map((item) => ({
+        file: item,
+        id: `${item.name}${item.size}`,
+        uploadProgress: 0,
+        uploadStatus: "idle",
+      }))
+    );
+  }
 
   const { getRootProps, getInputProps } = useDropzone({
     // accept: {
@@ -64,7 +60,7 @@ export function FileManager() {
           marginBottom: 3,
         })}
         disableRipple
-        {...getRootProps({ className: "dropzone" })}
+        {...getRootProps()}
       >
         <Box component="input" {...getInputProps()} />
 
