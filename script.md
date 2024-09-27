@@ -7,14 +7,20 @@ first comment on video that do you want to implemnt using nextjs or??
 ---
 
 intro:
-show that if error, file becomes red
-real nodejs server
+
+In this tutorial, you'll learn how to build a file manager in React where users can drag and drop multiple files with smooth animations and real-time upload progress. These files will be uploaded in parallel to a Node.js server running on your localhost. If an upload is interrupted, the progress indicator will turn red.
+
+Once uploaded, the files will be displayed in a paginated Data Grid fetched from the server. Users can sort by columns, manage, download, or perform bulk actions on multiple files.
+
+We’ll primarily focus on state management throughout the app, including handling user input for file selection (with type and quantity validation), uploading files in parallel, updating progress, and managing data on the client with caching, mutation, and invalidation.
+
+So, let’s dive in and get started!
 
 ---
 
-if you want to follow along and to save your time, i decided to create a starting template project where i have setup a simple react vite project with material ui and a few other libraries to help us get started with the project
+If you want to follow along and save time, I've created a starter template for this project. It’s a simple React Vite setup with Material UI and a few other libraries to get us up and running quickly. You can find all the relevant gists and project links in the description below.
 
-also all gists and projects in the description that below
+In this React project, we'll be using Material UI, React Query, Zustand, and React Dropzone.
 
 ```bash
 git clone -b starting-template https://github.com/codegenixdev/file-manager-frontend-tutorial.git .
@@ -133,6 +139,8 @@ const { getRootProps, getInputProps } = useDropzone({
   maxSize: 10_000_000_000,
 });
 ```
+
+!! try to show some other funcaitonlaity like show error if wrong file or rejected files.
 
 also there are so many other properties you can read the docs
 
